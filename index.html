@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brajraj Singh Songara — Website Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #06060a;
+    --bg-soft: #0b0b13;
+    --glass: rgba(255,255,255,0.06);
+    --glass-border: rgba(255,255,255,0.14);
+    --glass-highlight: rgba(255,255,255,0.35);
+    --violet: #ffffff;
+    --cyan: #b8b8c2;
+    --pink: #6e6e78;
+    --text: #f4f3f8;
+    --muted: #9a97ac;
+    --grad: linear-gradient(120deg, #ffffff, #b8b8c2 55%, #6e6e78);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--violet); color:#fff;}
+
+  /* ambient orbs */
+  .orb{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:.35;
+    z-index:0;
+    pointer-events:none;
+    will-change:transform;
+  }
+  .orb-1{width:520px;height:520px;background:var(--violet);top:-150px;left:-150px;}
+  .orb-2{width:460px;height:460px;background:var(--cyan);bottom:-100px;right:-120px;}
+  .orb-3{width:380px;height:380px;background:var(--pink);top:40%;left:60%;opacity:.2;}
+
+  /* nav */
+  nav{
+    position:fixed; top:0; left:0; width:100%;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 6%;
+    z-index:100;
+    backdrop-filter:blur(18px) saturate(160%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    background:rgba(6,6,10,0.35);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    transition:padding .3s ease;
+  }
+  .logo{
+    font-family:'Sora',sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    letter-spacing:.02em;
+  }
+  .logo span{
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .nav-links{display:flex; gap:36px; list-style:none;}
+  .nav-links a{
+    color:var(--muted);
+    text-decoration:none;
+    font-size:.88rem;
+    font-weight:500;
+    letter-spacing:.02em;
+    transition:color .25s ease;
+    position:relative;
+  }
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a::after{
+    content:'';
+    position:absolute; left:0; bottom:-6px;
+    width:0; height:1px;
+    background:var(--grad);
+    transition:width .3s ease;
+  }
+  .nav-links a:hover::after{width:100%;}
+
+  /* hero */
+  .hero{
+    position:relative;
+    height:100svh;
+    display:flex;
+    align-items:flex-end;
+    overflow:hidden;
+  }
+  .hero video{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    filter:saturate(1.05) contrast(1.02) brightness(.75);
+  }
+  .hero::before{
+    content:'';
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse at 30% 100%, rgba(124,92,255,.35), transparent 60%),
+      linear-gradient(180deg, rgba(6,6,10,.15) 0%, rgba(6,6,10,.35) 55%, rgba(6,6,10,.96) 100%);
+    z-index:1;
+  }
+  .hero-content{
+    position:relative;
+    z-index:2;
+    width:100%;
+    padding:0 6% 8vh;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:40px;
+  }
+  .hero-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 16px;
+    border-radius:999px;
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    font-size:.75rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:22px;
+    opacity:0; transform:translateY(16px);
+    animation:rise .9s .2s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .hero-eyebrow .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 12px var(--cyan);
+    animation:pulse 2s ease-in-out infinite;
+  }
+  h1.title{
+    font-family:'Sora',sans-serif;
+    font-weight:700;
+    font-size:clamp(2.4rem, 6vw, 5.2rem);
+    line-height:1.02;
+    letter-spacing:-.02em;
+    max-width:850px;
+    opacity:0; transform:translateY(26px);
+    animation:rise 1s .35s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  h1.title .grad{
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    background-size:200% 200%;
+    animation:shift 6s ease-in-out infinite;
+  }
+  .hero-sub{
+    color:var(--muted);
+    font-size:1.05rem;
+    max-width:480px;
+    margin-top:22px;
+    line-height:1.6;
+    opacity:0; transform:translateY(20px);
+    animation:rise 1s .5s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .hero-right{
+    display:flex; flex-direction:column; align-items:flex-end; gap:18px;
+    opacity:0; transform:translateY(20px);
+    animation:rise 1s .65s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:15px 26px;
+    border-radius:16px;
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(20px) saturate(180%);
+    -webkit-backdrop-filter:blur(20px) saturate(180%);
+    color:var(--text);
+    font-weight:600;
+    font-size:.92rem;
+    text-decoration:none;
+    box-shadow: inset 0 1px 0 var(--glass-highlight), 0 8px 30px rgba(0,0,0,.35);
+    transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease, background .35s ease;
+    white-space:nowrap;
+  }
+  .btn:hover{
+    transform:translateY(-3px);
+    background:rgba(255,255,255,0.1);
+    box-shadow: inset 0 1px 0 var(--glass-highlight), 0 14px 40px rgba(124,92,255,.25);
+  }
+  .btn.primary{
+    background:var(--grad);
+    border:none;
+    color:#0b0b13;
+    box-shadow:0 10px 30px rgba(124,92,255,.35);
+  }
+  .btn.primary:hover{
+    box-shadow:0 16px 40px rgba(124,92,255,.5);
+  }
+  .scroll-cue{
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    z-index:3;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    color:var(--muted);
+    font-size:.7rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    animation:fadein 1s 1.2s backwards;
+  }
+  .scroll-cue .line{
+    width:1px; height:34px;
+    background:linear-gradient(var(--cyan), transparent);
+    animation:scrollline 1.8s ease-in-out infinite;
+  }
+
+  @keyframes rise{to{opacity:1; transform:translateY(0);}}
+  @keyframes fadein{from{opacity:0;} to{opacity:1;}}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.3;}}
+  @keyframes shift{0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;}}
+  @keyframes scrollline{0%{transform:scaleY(0); transform-origin:top;} 50%{transform:scaleY(1); transform-origin:top;} 51%{transform-origin:bottom;} 100%{transform:scaleY(0); transform-origin:bottom;}}
+
+  section{position:relative; z-index:1; padding:140px 6%;}
+  .section-head{max-width:640px; margin-bottom:70px;}
+  .eyebrow-label{
+    font-size:.78rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); font-weight:600; margin-bottom:16px; display:block;
+  }
+  h2{
+    font-family:'Sora',sans-serif;
+    font-size:clamp(1.8rem, 3.6vw, 3rem);
+    font-weight:600;
+    letter-spacing:-.015em;
+    line-height:1.1;
+  }
+  .section-head p{color:var(--muted); margin-top:18px; font-size:1.05rem; line-height:1.7;}
+
+  .reveal{opacity:0; transform:translateY(40px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* about */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:50px;
+    align-items:start;
+  }
+  .glass-card{
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    border-radius:24px;
+    backdrop-filter:blur(24px) saturate(180%);
+    -webkit-backdrop-filter:blur(24px) saturate(180%);
+    box-shadow: inset 0 1px 0 var(--glass-highlight), 0 20px 60px rgba(0,0,0,.35);
+    position:relative;
+    overflow:hidden;
+  }
+  .glass-card::before{
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
+  }
+  .about-text p{color:var(--muted); font-size:1.05rem; line-height:1.85; margin-bottom:20px;}
+  .about-text strong{color:var(--text); font-weight:600;}
+  .stat-stack{display:flex; flex-direction:column; gap:18px;}
+  .stat-card{padding:28px 30px;}
+  .stat-num{
+    font-family:'Sora',sans-serif; font-weight:700; font-size:2.4rem;
+    background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .stat-label{color:var(--muted); font-size:.88rem; margin-top:6px;}
+
+  /* work */
+  .work-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+    gap:28px;
+  }
+  .work-card{
+    padding:34px;
+    display:flex; flex-direction:column; gap:20px;
+    transition:transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s ease, border-color .5s ease;
+    cursor:default;
+  }
+  .work-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(255,255,255,.28);
+    box-shadow: inset 0 1px 0 var(--glass-highlight), 0 26px 60px rgba(124,92,255,.2);
+  }
+  .work-icon{
+    width:52px; height:52px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--grad);
+    font-size:1.3rem;
+    color:#0b0b13;
+  }
+  .work-card h3{font-family:'Sora',sans-serif; font-size:1.2rem; font-weight:600;}
+  .work-card p{color:var(--muted); font-size:.94rem; line-height:1.7;}
+  .work-tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:auto;}
+  .tag{
+    font-size:.72rem; padding:6px 12px; border-radius:999px;
+    background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);
+    color:var(--muted);
+  }
+
+  /* contact */
+  .contact-wrap{
+    padding:70px 60px;
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    position:relative;
+  }
+  .contact-wrap h2{max-width:600px;}
+  .contact-wrap p{color:var(--muted); max-width:520px; margin-top:16px; font-size:1.05rem;}
+  .contact-actions{display:flex; gap:18px; margin-top:44px; flex-wrap:wrap; justify-content:center;}
+  .social-row{display:flex; gap:16px; margin-top:44px;}
+  .social-icon{
+    width:48px; height:48px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--glass); border:1px solid var(--glass-border);
+    backdrop-filter:blur(20px);
+    color:var(--text); text-decoration:none;
+    transition:transform .35s cubic-bezier(.16,1,.3,1), background .35s ease;
+  }
+  .social-icon:hover{transform:translateY(-4px) scale(1.06); background:rgba(255,255,255,.12);}
+
+  footer{
+    padding:34px 6%;
+    display:flex; justify-content:space-between; align-items:center;
+    border-top:1px solid rgba(255,255,255,.06);
+    color:var(--muted); font-size:.82rem;
+    flex-wrap:wrap; gap:12px;
+  }
+  footer a{color:var(--muted); text-decoration:none;}
+  footer a:hover{color:var(--text);}
+
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .hero-content{flex-direction:column; align-items:flex-start; gap:26px;}
+    .hero-right{align-items:flex-start;}
+    .about-grid{grid-template-columns:1fr;}
+    .contact-wrap{padding:50px 24px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1" id="orb1"></div>
+<div class="orb orb-2" id="orb2"></div>
+<div class="orb orb-3" id="orb3"></div>
+
+<nav>
+  <div class="logo">braj<span>saa</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="btn" style="padding:10px 20px; font-size:.82rem;">Say hello</a>
+</nav>
+
+<section class="hero">
+  <video autoplay muted loop playsinline src="hero.mp4"></video>
+  <div class="hero-content">
+    <div>
+      <div class="hero-eyebrow"><span class="dot"></span> Available for new projects</div>
+      <h1 class="title">Brajraj Singh Songara —<br><span class="grad">designing websites</span> people remember.</h1>
+      <p class="hero-sub">I design and build clean, modern, high-converting websites — from first sketch to the live site your visitors scroll through.</p>
+    </div>
+    <div class="hero-right">
+      <a href="mailto:the.voidmoon11@gmail.com" class="btn primary">Start a project ↗</a>
+      <a href="#work" class="btn">View my work</a>
+    </div>
+  </div>
+  <div class="scroll-cue">Scroll<div class="line"></div></div>
+</section>
+
+<section id="about">
+  <div class="section-head reveal">
+    <span class="eyebrow-label">About</span>
+    <h2>A designer who builds, not just draws.</h2>
+  </div>
+  <div class="about-grid">
+    <div class="glass-card about-text reveal" style="padding:44px;">
+      <p>I'm <strong>Brajraj Singh Songara</strong>, a website designer focused on turning ideas into interfaces that feel effortless to use. Every project starts with the same question: <strong>what does this person need to feel, in the first three seconds?</strong></p>
+      <p>From there — layout, type, motion, and color are chosen on purpose, never by default. The result is a site that looks premium, loads fast, and actually gets the click, the message, or the sale.</p>
+      <p>I work end-to-end: design, front-end build, and the small animated details that make a site feel alive.</p>
+    </div>
+    <div class="stat-stack">
+      <div class="glass-card stat-card reveal">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Custom-designed, no templates</div>
+      </div>
+      <div class="glass-card stat-card reveal">
+        <div class="stat-num">Fast</div>
+        <div class="stat-label">Built for speed &amp; smooth scroll</div>
+      </div>
+      <div class="glass-card stat-card reveal">
+        <div class="stat-num">1:1</div>
+        <div class="stat-label">Direct collaboration, no middlemen</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-head reveal">
+    <span class="eyebrow-label">What I do</span>
+    <h2>Website design, end to end.</h2>
+    <p>From the first wireframe to a live site your visitors actually enjoy scrolling through.</p>
+  </div>
+  <div class="work-grid">
+    <div class="glass-card work-card reveal">
+      <div class="work-icon">✦</div>
+      <h3>Web Design</h3>
+      <p>Custom layouts, type systems, and color direction built around your brand — not a recycled template.</p>
+      <div class="work-tags"><span class="tag">UI Design</span><span class="tag">Branding</span></div>
+    </div>
+    <div class="glass-card work-card reveal">
+      <div class="work-icon">◈</div>
+      <h3>Front-End Build</h3>
+      <p>Pixel-accurate, responsive builds that hold up on any screen — from a wide monitor to a small phone.</p>
+      <div class="work-tags"><span class="tag">HTML/CSS</span><span class="tag">Responsive</span></div>
+    </div>
+    <div class="glass-card work-card reveal">
+      <div class="work-icon">◎</div>
+      <h3>Motion &amp; Interaction</h3>
+      <p>Scroll reveals, hover states, and small animated details that make a site feel considered, not static.</p>
+      <div class="work-tags"><span class="tag">Animation</span><span class="tag">Micro-interactions</span></div>
+    </div>
+    <div class="glass-card work-card reveal">
+      <div class="work-icon">◐</div>
+      <h3>Glass &amp; Modern UI</h3>
+      <p>Premium, translucent interface elements — the soft-glass look popularized by modern app design.</p>
+      <div class="work-tags"><span class="tag">Glassmorphism</span><span class="tag">Design Systems</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="glass-card contact-wrap reveal">
+    <span class="eyebrow-label">Get in touch</span>
+    <h2>Have a website in mind?<br>Let's design it.</h2>
+    <p>Tell me about your project and I'll get back to you — usually within a day.</p>
+    <div class="contact-actions">
+      <a href="mailto:the.voidmoon11@gmail.com" class="btn primary">the.voidmoon11@gmail.com</a>
+    </div>
+    <div class="social-row">
+      <a href="https://instagram.com/brajsaa_23" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="6"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="mailto:the.voidmoon11@gmail.com" class="social-icon" aria-label="Email">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" stroke="none"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Brajraj Singh Songara. All rights reserved.</span>
+  <a href="https://instagram.com/brajsaa_23" target="_blank" rel="noopener">@brajsaa_23</a>
+</footer>
+
+<script>
+  // scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.15});
+  reveals.forEach(r=>io.observe(r));
+
+  // parallax orbs on scroll + mouse
+  const orb1 = document.getElementById('orb1');
+  const orb2 = document.getElementById('orb2');
+  const orb3 = document.getElementById('orb3');
+  let mx=0, my=0, sy=0;
+  window.addEventListener('mousemove', (e)=>{
+    mx = (e.clientX / window.innerWidth - 0.5) * 40;
+    my = (e.clientY / window.innerHeight - 0.5) * 40;
+  });
+  window.addEventListener('scroll', ()=>{ sy = window.scrollY; });
+  function animateOrbs(){
+    orb1.style.transform = `translate(${mx}px, ${my + sy*0.08}px)`;
+    orb2.style.transform = `translate(${-mx}px, ${-my + sy*0.05}px)`;
+    orb3.style.transform = `translate(${mx*0.6}px, ${sy*0.12}px)`;
+    requestAnimationFrame(animateOrbs);
+  }
+  animateOrbs();
+
+  // shrink nav on scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', ()=>{
+    if(window.scrollY > 40){ nav.style.padding = '12px 6%'; }
+    else{ nav.style.padding = '20px 6%'; }
+  });
+</script>
+
+</body>
+</html>
